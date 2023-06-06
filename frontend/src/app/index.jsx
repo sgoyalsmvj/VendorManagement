@@ -11,7 +11,13 @@ import useNetwork from "@/hooks/useNetwork";
 
 function App() {
   const { isOnline: isNetwork } = useNetwork();
+  const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    fetch("https://vendor-management.onrender.com")
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message));
+  },[]);
   if (!isNetwork)
     return (
       <>
