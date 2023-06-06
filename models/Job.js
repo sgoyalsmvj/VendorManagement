@@ -89,5 +89,5 @@ const jobSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-module.exports = mongoose.model("Job", jobSchema);
+const Job =mongoose.model("Job", jobSchema);
+module.exports = {Job};
