@@ -5,8 +5,7 @@ import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import PageLoader from "@/components/PageLoader";
 
-const auth = JSON.parse(localStorage.getItem("auth"));
-const permissions = auth ? auth.permissions : null;
+const permissions = JSON.parse(localStorage.getItem('auth')).permissions;
 
 const Dashboard = lazy(() =>
   import(/*webpackChunkName:'DashboardPage'*/ "@/pages/Dashboard")
@@ -29,7 +28,7 @@ const Product = lazy(() =>
   import(/*webpackChunkName:'ProductPage'*/ "@/pages/Product")
 );
 
-const Report = lazy(() => import(/*webpackChunkName:'ReportPage'*/ "@/pages/Report"));
+const Report = lazy(() => import(/*webpackChunkName:'ReportPage'*/ "@/pages/Report"))
 
 const Logout = lazy(() =>
   import(/*webpackChunkName:'LogoutPage'*/ "@/pages/Logout")
@@ -40,48 +39,57 @@ const NotFound = lazy(() =>
 
 export default function AppRouter() {
   const location = useLocation();
-  const superadmin = permissions === "superadmin";
-  const permissionsArray = Array.isArray(permissions) ? permissions : [];
+  const superadmin = permissions == 'superadmin';
 
   return (
     <Suspense fallback={<PageLoader />}>
       <AnimatePresence exitBeforeEnter initial={false}>
         <Switch location={location} key={location.pathname}>
           <PrivateRoute path="/" component={Dashboard} exact />
-          {(superadmin ||
-            permissionsArray.includes("vendor")) && (
-            <PrivateRoute component={Customer} path="/vendor" exact />
-          )}
+          {
+            (
+              superadmin ||
+              [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('vendor')
+            ) &&
+            (<PrivateRoute component={Customer} path="/vendor" exact />)
+          }
           <PrivateRoute component={SelectCustomer} path="/selectcustomer" exact />
-          {(superadmin ||
-            permissionsArray.includes("job")) && (
-            <PrivateRoute component={Lead} path="/lead" exact />
-          )}
-          {(superadmin ||
-            permissionsArray.includes("role")) && (
-            <PrivateRoute component={Role} path="/role" exact />
-          )}
-          {(superadmin ||
-            permissionsArray.includes("service")) && (
-            <PrivateRoute component={Product} path="/product" exact />
-          )}
-          {(superadmin ||
-            permissionsArray.includes("admin")) && (
-            <PrivateRoute component={Admin} path="/admin" exact />
-          )}
-          {superadmin && (
-            <PrivateRoute component={Report} path="/report" exact />
-          )}
+          {
+            (
+              superadmin ||
+              [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('job')
+            ) &&
+            (<PrivateRoute component={Lead} path="/lead" exact />)
+          }
+          {
+            (
+              superadmin ||
+              [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('role')
+            ) &&
+            (<PrivateRoute component={Role} path="/role" exact />)
+          }
+          {
+            (
+              superadmin ||
+              [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('service')
+            ) &&
+            (<PrivateRoute component={Product} path="/product" exact />)
+          }
+          {
+            (
+              superadmin ||
+              [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('admin')
+            ) &&
+            (<PrivateRoute component={Admin} path="/admin" exact />)
+          }
+
+          {
+            superadmin
+            && (<PrivateRoute component={Report} path="/report" exact />)
+          }
           <PrivateRoute component={Logout} path="/logout" exact />
-          <PublicRoute
-            path="/login"
-            render={() => <Redirect to="/" />}
-          />
-          <Route
-            path="*"
-            component={NotFound}
-            render={() => <Redirect to="/notfound" />}
-          />
+          <PublicRoute path="/login" render={() => <Redirect to="/" />} />
+          <Route path="*" component={NotFound} render={() => <Redirect to="/notfound" />} />
         </Switch>
       </AnimatePresence>
     </Suspense>
