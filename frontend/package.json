@@ -1,5 +1,6 @@
 {
   "name": "antd-demo",
+  "homepage": "https://vm.blockverse.co.in/",
   "version": "0.1.0",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",

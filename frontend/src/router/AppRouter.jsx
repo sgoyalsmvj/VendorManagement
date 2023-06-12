@@ -5,7 +5,8 @@ import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import PageLoader from "@/components/PageLoader";
 
-const permissions = JSON.parse(localStorage.getItem('auth')).permissions;
+const auth = JSON.parse(localStorage.getItem("auth"));
+const permissions = auth ? auth.permissions : null;
 
 const Dashboard = lazy(() =>
   import(/*webpackChunkName:'DashboardPage'*/ "@/pages/Dashboard")

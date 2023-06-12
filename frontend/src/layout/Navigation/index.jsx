@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import {
@@ -12,14 +11,15 @@ import {
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const permissions = JSON.parse(localStorage.getItem('auth')).permissions;
-
 function Navigation() {
   const [collapsed, setCollapsed] = useState(false);
+  const auth = JSON.parse(localStorage.getItem('auth'));
+  const permissions = auth ? auth.permissions : null;
 
   const onCollapse = () => {
     setCollapsed(!collapsed);
   };
+
   return (
     <>
       <Sider
@@ -30,62 +30,66 @@ function Navigation() {
           zIndex: 10,
         }}
       >
-        <h2 style={{
-          fontSize: 30,
-          padding: 10,
-          color: 'white',
-          marginTop: 8,
-          textAlign: 'center'
-
-        }}>AKORITA</h2>
+        <h2
+          style={{
+            fontSize: 30,
+            padding: 10,
+            color: 'white',
+            marginTop: 8,
+            textAlign: 'center'
+          }}
+        >
+          AKORITA
+        </h2>
 
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item key="1" icon={<DashboardOutlined />}>
-            <Link to="/" />
-            Dashboard
+            <Link to="/">Dashboard</Link>
           </Menu.Item>
 
-          {
-            (permissions == 'superadmin' || [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('vendor')) && (<Menu.Item key="2" icon={<CustomerServiceOutlined />}>
+          {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('vendor'))) && (
+            <Menu.Item key="2" icon={<CustomerServiceOutlined />}>
               <Link to="/vendor">Vendor</Link>
-            </Menu.Item>)
-          }
+            </Menu.Item>
+          )}
 
-          {(permissions == 'superadmin' || [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('job')) && (<Menu.Item key="21" icon={<TeamOutlined />}>
-            <Link to={'/lead'} />
-            Jobs
-          </Menu.Item>)}
+          {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('job'))) && (
+            <Menu.Item key="21" icon={<TeamOutlined />}>
+              <Link to="/lead">Jobs</Link>
+            </Menu.Item>
+          )}
 
-          {(permissions == 'superadmin' || [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('service')) && (<Menu.Item key="3" icon={<FileSyncOutlined />}>
-            <Link to="/product" />
-            Services
-          </Menu.Item>)}
+          {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('service'))) && (
+            <Menu.Item key="3" icon={<FileSyncOutlined />}>
+              <Link to="/product">Services</Link>
+            </Menu.Item>
+          )}
 
-          {(
-            permissions == 'superadmin' ||
-            ([...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('admin') ||
-              [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('role'))
-          ) && (<SubMenu key={'admin'} title={'Admin Management'} icon={<TeamOutlined />}>
-            {(permissions == 'superadmin' || [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('admin')) && (<Menu.Item key={'adminrole'} >
-              <Link to={'/admin'} />
-              Admin
-            </Menu.Item>)}
+          {(permissions === 'superadmin' || (permissions && permissions.includes && (permissions.includes('admin') || permissions.includes('role')))) && (
+            <SubMenu key="admin" title="Admin Management" icon={<TeamOutlined />}>
+              {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('admin'))) && (
+                <Menu.Item key="adminrole">
+                  <Link to="/admin">Admin</Link>
+                </Menu.Item>
+              )}
 
-            {(permissions == 'superadmin' || [...permissions['view'], ...permissions['update'], ...permissions['delete'], ...permissions['create']].includes('role')) && (<Menu.Item key={'role'} >
-              <Link to={'/Role'} />
-              Roles & Permissions
-            </Menu.Item>)}
+              {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('role'))) && (
+                <Menu.Item key="role">
+                  <Link to="/Role">Roles & Permissions</Link>
+                </Menu.Item>
+              )}
 
-            {permissions == 'superadmin' && (
-              <Menu.Item key={'report'}>
-                <Link to={'/report'} />
-                Report
-              </Menu.Item>
-            )}
-          </SubMenu>)}
+              {permissions === 'superadmin' && (
+                <Menu.Item key="report">
+                  <Link to="/report">Report</Link>
+                </Menu.Item>
+              )}
+            </SubMenu>
+          )}
         </Menu>
       </Sider>
     </>
   );
 }
+
 export default Navigation;
