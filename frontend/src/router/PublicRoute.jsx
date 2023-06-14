@@ -5,8 +5,6 @@ import * as authService from "@/auth";
 
 const PublicRoute = ({ component: Component, ...rest }) => {
   return (
-    // Show the component only when the admin is logged in
-    // Otherwise, redirect the admin to /signin page
     <Route
       {...rest}
       render={(props) =>

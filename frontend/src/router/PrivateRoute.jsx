@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Route, Redirect } from "react-router-dom";
-
 import * as authService from "@/auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -12,8 +11,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   };
 
   return (
-    // Show the component only when the admin is logged in
-    // Otherwise, redirect the admin to /signin page
     <Route
       {...rest}
       render={(props) =>

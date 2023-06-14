@@ -13,7 +13,7 @@ const { SubMenu } = Menu;
 
 function Navigation() {
   const [collapsed, setCollapsed] = useState(false);
-  const auth = JSON.parse(localStorage.getItem('auth'));
+  const auth = JSON.parse(localStorage.getItem("auth"));
   const permissions = auth ? auth.permissions : null;
 
   const onCollapse = () => {
@@ -34,9 +34,9 @@ function Navigation() {
           style={{
             fontSize: 30,
             padding: 10,
-            color: 'white',
+            color: "white",
             marginTop: 8,
-            textAlign: 'center'
+            textAlign: "center",
           }}
         >
           AKORITA
@@ -47,39 +47,62 @@ function Navigation() {
             <Link to="/">Dashboard</Link>
           </Menu.Item>
 
-          {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('vendor'))) && (
+          {(permissions === "superadmin" ||
+            (permissions &&
+              permissions.includes &&
+              permissions.includes("vendor"))) && (
             <Menu.Item key="2" icon={<CustomerServiceOutlined />}>
               <Link to="/vendor">Vendor</Link>
             </Menu.Item>
           )}
 
-          {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('job'))) && (
+          {(permissions === "superadmin" ||
+            (permissions &&
+              permissions.includes &&
+              permissions.includes("job"))) && (
             <Menu.Item key="21" icon={<TeamOutlined />}>
               <Link to="/lead">Jobs</Link>
             </Menu.Item>
           )}
 
-          {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('service'))) && (
+          {(permissions === "superadmin" ||
+            (permissions &&
+              permissions.includes &&
+              permissions.includes("service"))) && (
             <Menu.Item key="3" icon={<FileSyncOutlined />}>
               <Link to="/product">Services</Link>
             </Menu.Item>
           )}
 
-          {(permissions === 'superadmin' || (permissions && permissions.includes && (permissions.includes('admin') || permissions.includes('role')))) && (
-            <SubMenu key="admin" title="Admin Management" icon={<TeamOutlined />}>
-              {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('admin'))) && (
+          {(permissions === "superadmin" ||
+            (permissions &&
+              permissions.includes &&
+              (permissions.includes("admin") ||
+                permissions.includes("role")))) && (
+            <SubMenu
+              key="admin"
+              title="Admin Management"
+              icon={<TeamOutlined />}
+            >
+              {(permissions === "superadmin" ||
+                (permissions &&
+                  permissions.includes &&
+                  permissions.includes("admin"))) && (
                 <Menu.Item key="adminrole">
                   <Link to="/admin">Admin</Link>
                 </Menu.Item>
               )}
 
-              {(permissions === 'superadmin' || (permissions && permissions.includes && permissions.includes('role'))) && (
+              {(permissions === "superadmin" ||
+                (permissions &&
+                  permissions.includes &&
+                  permissions.includes("role"))) && (
                 <Menu.Item key="role">
                   <Link to="/Role">Roles & Permissions</Link>
                 </Menu.Item>
               )}
 
-              {permissions === 'superadmin' && (
+              {permissions === "superadmin" && (
                 <Menu.Item key="report">
                   <Link to="/report">Report</Link>
                 </Menu.Item>

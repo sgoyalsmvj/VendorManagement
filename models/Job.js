@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 mongoose.Promise = global.Promise;
-
+const alphanumeric = Math.random().toString(36).slice(2);
 const jobSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -88,6 +88,10 @@ const jobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  jobId:{
+    type:String,
+    default:alphanumeric,
+  }
 });
 const Job =mongoose.model("Job", jobSchema);
 module.exports = {Job};
