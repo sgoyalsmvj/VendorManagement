@@ -36,7 +36,7 @@
     "start": "craco --openssl-legacy-provider start",
     "dev:remote": "cross-env REACT_APP_DEV_REMOTE=remote npm start",
     "test": "craco test",
-    "build": "craco build",
+    "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
   "browserslist": {
